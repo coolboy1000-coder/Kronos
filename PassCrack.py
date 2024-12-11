@@ -24,7 +24,7 @@ def get_hashes():
 
 def brute_force(hash_type, hashes):
     print(f"Starting brute force attack on {len(hashes)} {hash_type} hash(es)...")
-    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+~`{[]}|\;:',.<>?/ " and '"'
     max_length = 5  # Adjust as needed
     
     def brute_force_inner(target_hash, max_length, prefix=""):
