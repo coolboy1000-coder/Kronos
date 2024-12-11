@@ -1,5 +1,5 @@
 # Kronos
-Run Kronos.py (Previously known as PassCrack.py) then choose a hash type: <br />
+Run PassCrack.py then choose a hash type: <br />
 MD5 <br />
 SHA1 <br />
 SHA256 <br />
