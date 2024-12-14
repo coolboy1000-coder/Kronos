@@ -76,8 +76,8 @@ def hashcat_mode(hash_type):
 
 def main():
     hash_type = get_hash_type()
-    hashes = get_hashes()
     max_length = int(input("Enter Maximum number: "))
+    hashes = get_hashes()
     print("Select attack type:")
     print("1. Brute force")
     print("2. Wordlist")
