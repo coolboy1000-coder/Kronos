@@ -23,6 +23,7 @@ def get_hashes():
     return hashes
 
 def brute_force(hash_type, hashes):
+    max_length = int(input("Enter Maximum number: "))
     print(f"Starting brute force attack on {len(hashes)} {hash_type} hash(es)...")
     chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+~`{[]}|\;:',.<>?/" + '"'
     
@@ -76,7 +77,6 @@ def hashcat_mode(hash_type):
 
 def main():
     hash_type = get_hash_type()
-    max_length = int(input("Enter Maximum number: "))
     hashes = get_hashes()
     print("Select attack type:")
     print("1. Brute force")
