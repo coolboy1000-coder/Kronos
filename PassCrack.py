@@ -25,8 +25,8 @@ def get_hashes():
 def brute_force(hash_type, hashes):
     max_length = int(input("Enter Maximum number: "))
     print(f"Starting brute force attack on {len(hashes)} {hash_type} hash(es)...")
-    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+~`{[]}|\;:',.<>?/" + '"'
-    
+    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+~`{[]}|\\;:',.<>?/ " + '"'
+     
     def brute_force_inner(target_hash, max_length, prefix=""):
         if len(prefix) > max_length:
             return None
