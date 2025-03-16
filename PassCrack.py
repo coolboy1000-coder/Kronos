@@ -26,7 +26,7 @@ def brute_force(hash_type, hashes):
     max_length = int(input("Enter Maximum number: "))
     print(f"Starting brute force attack on {len(hashes)} {hash_type} hash(es)...")
     chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+~`{[]}|\\;:',.<>?/ " + '"'
-     
+
     def brute_force_inner(target_hash, max_length, prefix=""):
         if len(prefix) > max_length:
             return None
@@ -52,28 +52,44 @@ def brute_force(hash_type, hashes):
 def use_wordlist(hash_type, hashes):
     print("Specify the location of the wordlist:")
     wordlist = input("Path to wordlist: ").strip()
-    hashcat_path = "hashcat"  # Ensure hashcat is installed and accessible
-    hash_file = "hashes.txt"
 
-    with open(hash_file, "w") as file:
-        file.write("\n".join(hashes))
+    # Open and read the wordlist
+    try:
+        with open(wordlist, 'r') as file:
+            wordlist_words = file.readlines()
+    except FileNotFoundError:
+        print(f"Error: Wordlist file '{wordlist}' not found.")
+        return
 
-    command = [
-        hashcat_path,
-        f"-m {hashcat_mode(hash_type)}",
-        hash_file,
-        wordlist,
-        "--force",
-        "--opencl-device-types", "1,2",  # Use GPU if available
-    ]
+    # Function to calculate hash based on hash type
+    def get_hash_of_word(word, hash_type):
+        word = word.strip()
+        if hash_type == "md5":
+            return hashlib.md5(word.encode('utf-8')).hexdigest()
+        elif hash_type == "sha1":
+            return hashlib.sha1(word.encode('utf-8')).hexdigest()
+        elif hash_type == "sha256":
+            return hashlib.sha256(word.encode('utf-8')).hexdigest()
+        elif hash_type == "sha512":
+            return hashlib.sha512(word.encode('utf-8')).hexdigest()
+        else:
+            print("Unsupported hash type.")
+            return None
 
-    print(f"Running hashcat with command: {' '.join(command)}")
-    subprocess.run(command)
-    os.remove(hash_file)
+    # Iterate through wordlist and check if any password matches
+    cracked_passwords = []
+    for word in wordlist_words:
+        word_hash = get_hash_of_word(word, hash_type)
+        if word_hash in hashes:
+            cracked_passwords.append((word.strip(), word_hash))
 
-def hashcat_mode(hash_type):
-    modes = {"md5": 0, "sha1": 100, "sha256": 1400, "sha512": 1700}
-    return modes.get(hash_type, 0)
+    # Display results
+    if cracked_passwords:
+        print("Cracked passwords:")
+        for password, hash in cracked_passwords:
+            print(f"Password: {password}, Hash: {hash}")
+    else:
+        print("No passwords found in wordlist.")
 
 def main():
     hash_type = get_hash_type()
